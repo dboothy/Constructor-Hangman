@@ -1,33 +1,88 @@
-var Word = require("./Word.js");
+var Word = require("./Word.js")
 
-var prompt = require('prompt');
+var inquirer = require('inquirer')
 
-console.log("Hangman")
+var guessedLetters = [];
+
+var guessesLeft = 10;
+var wins = 0;
+var losses = 0;
 
 
-prompt.start( );
 
-arrayofGuesses = [];
 
 var word = new Word("strawberry")
 
 word.buildLetters()
-word.checkUserGuess("r")
+word.checkUserGuess()
 
-word.checkUserGuess("t")
-//when string is passed in through called function, adds it to the guessed later for display
-console.log(word.displayCurrentValue())	
-
+word.checkUserGuess()
+// console.log(word.displayCurrentValue())
 
 
- 
-prompt.get(["guess"], function (err, result){
+var display = function(){
+	console.log("Wins: " + wins)
+	console.log("Losses: " + losses)
+	console.log(guessesLeft)
+	console.log(guessedLetters)
+	console.log(word.displayCurrentValue())
 
-	result.guess.arrayofGuesses.push()
+}	
 
-});
+var endGame = function(){
+	
+	/*when guesses -- to 0, check to see if underscores are left, if all guess bolleans == true, if one of letters booleans come back as false, the game is still not wons
+	check */
 
-console.log(arrayofGuesses)
+}
+
+var hangManStart = function(){
+display();
+
+inquirer.prompt([
+{
+	type:"input",
+	message: "guess the letter",
+	name: "guess"
+
+}
+
+]).then(function(answers){
+	/*function for prompt, passing in 'answers' as a */
+
+	var guess = answers.guess[0].toLowerCase();
+	if (guessedLetters.includes(guess)|| !guess ){
+		return hangManStart()
+	}
+	guessedLetters.push(guess)
+
+	word.checkUserGuess(guess)
+
+	if (word.isSolved()){
+		wins++;
+		console.log("won")
+		return
+	}
+
+
+	hangManStart();
+
+
+
+
+})
+
+}
+
+hangManStart()
+
+
+	// ]).then(function(answers){
+
+	// 	word.displayCurrentValue()
+
+	// })
+
 
 
 

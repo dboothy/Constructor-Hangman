@@ -30,7 +30,7 @@ var Word = function(stringValue){
 	this.buildLetters = function(){
 		//split array of words into individual letters
 		var letterString = this.value.split("")
-		console.log(letterString)
+		// console.log(letterString)
 		for(i = 0; i < letterString.length; i++){
 
 			var letter = new Letter(letterString[i])
@@ -45,15 +45,39 @@ var Word = function(stringValue){
 
 		}
 	}
+	this.isSolved = function(){
+		var solved = true;
+		for (var i = 0; i < this.arrayOfLetters.length; i++){
+			if(!this.arrayOfLetters[i].isGuessed){
+				solved = false;
+
+			}
+		} return solved;
+	}
 
 }
 
-// var word = new Word("strawberry")
+// var thing = new Word("strawberry")
+// // build letters from word 
+// //display current word
+// //take the input from the user, i can use checkuser guess against the acctual letters
+// var thing2 = new Word("bird")
+// // console.log(thing)
 
-// word.buildLetters()
-// word.checkUserGuess("r")
+// //build letters takes value of word as a string into an array of letter objects
+// //builds letter object and stores into array
 
-// word.checkUserGuess("t")
+// thing2.buildLetters()
+// console.log(thing)
+// console.log(thing2)
+// console.log(thing.displayCurrentValue())
+// console.log(thing2.displayCurrentValue())
+// thing2.checkUserGuess("b")
+
+// console.log(thing2.displayCurrentValue())
+// word.checkUserGuess()
+
+// word.checkUserGuess()
 // console.log(word.displayCurrentValue())	
 
 module.exports = Word
