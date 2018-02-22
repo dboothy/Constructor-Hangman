@@ -40,10 +40,15 @@ var Word = function(stringValue){
 		}
 	}
 	this.checkUserGuess = function(guess){
+		var success = false
 		for(i = 0; i < this.arrayOfLetters.length; i++){
-			this.arrayOfLetters[i].compareGuess(guess)
+			var temp = this.arrayOfLetters[i].compareGuess(guess)
+			if(temp){
+				success = true
+			}
 
 		}
+		return success
 	}
 	this.isSolved = function(){
 		var solved = true;
@@ -52,7 +57,7 @@ var Word = function(stringValue){
 				solved = false;
 
 			}
-		} return solved;
+		} return solved; 
 	}
 
 }

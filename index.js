@@ -1,6 +1,16 @@
 var Word = require("./Word.js")
 
+
 var inquirer = require('inquirer')
+
+
+var wordsToGuess = ["strawberry", "violin", "coffee", "lion",]
+
+var random = Math.floor(Math.random()*wordsToGuess.length)
+
+var gameWord = wordsToGuess[random]
+
+
 
 var guessedLetters = [];
 
@@ -11,25 +21,29 @@ var losses = 0;
 
 
 
-var word = new Word("strawberry")
+var word = new Word(gameWord)
+
 
 word.buildLetters()
+
 word.checkUserGuess()
 
 word.checkUserGuess()
-// console.log(word.displayCurrentValue())
+word.displayCurrentValue()
 
 
 var display = function(){
 	console.log("Wins: " + wins)
 	console.log("Losses: " + losses)
-	console.log(guessesLeft)
+	console.log("Guesses left: " + guessesLeft)
 	console.log(guessedLetters)
 	console.log(word.displayCurrentValue())
 
 }	
 
 var endGame = function(){
+
+
 	
 	/*when guesses -- to 0, check to see if underscores are left, if all guess bolleans == true, if one of letters booleans come back as false, the game is still not wons
 	check */
@@ -38,6 +52,7 @@ var endGame = function(){
 
 var hangManStart = function(){
 display();
+
 
 inquirer.prompt([
 {
@@ -51,19 +66,44 @@ inquirer.prompt([
 	/*function for prompt, passing in 'answers' as a */
 
 	var guess = answers.guess[0].toLowerCase();
+/*if guessed letter*/
 	if (guessedLetters.includes(guess)|| !guess ){
 		return hangManStart()
-	}
+	
+
+
+	} 
+
 	guessedLetters.push(guess)
 
-	word.checkUserGuess(guess)
 
-	if (word.isSolved()){
-		wins++;
-		console.log("won")
-		return
+
+	var correctGuess = word.checkUserGuess(guess)
+	if(correctGuess){
+		if (word.isSolved()){
+			wins++;
+			console.log("won")
+			gameReset()
+			
+			//call win game function to call another round
+					//win game function setting guess to max number 
+		
+		}
+
+	}else {
+		guessesLeft --;
+		if(guessesLeft === 0){
+			losses ++
+			gameReset()
+
+
+
+			
+		
+			//add loss ++ lose game function
+		}
+
 	}
-
 
 	hangManStart();
 
@@ -75,6 +115,25 @@ inquirer.prompt([
 }
 
 hangManStart()
+
+function gameReset(){
+
+
+success = false;
+guessedLetters = [];
+guessesLeft = 10;
+gameWord = wordsToGuess[random]
+word = new Word(gameWord)
+
+word.buildLetters()
+
+word.checkUserGuess()
+
+word.checkUserGuess()
+word.displayCurrentValue()
+}
+
+
 
 
 	// ]).then(function(answers){
